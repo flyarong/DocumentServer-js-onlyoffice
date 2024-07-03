@@ -1,5 +1,403 @@
 # Change log
 
+## 8.1.0
+
+### New features
+
+#### All Editors
+
+* Changes in program interface: manageable functional buttons, Replace button
+  is now on the Home tab, Copy style, Clear style, Select all
+* Autoshape shadowing settings
+* Added the editors translation into Serbian - Cyrillic (sr-Cyrl-RS, Serbian
+  (Cyrillic, Serbia))
+* Updated the set of color themes available in editors
+* Added internal help in Portuguese (pt-br)
+* Added Arabic to all regional settings
+* Added a title and a button to close the panel to the Chat panel
+
+#### Document Editor
+
+* New button on the top toolbar for changing document editing mode: Editing,
+  Reviewing, Viewing
+* Added tooltips for new or updated functionality (displayed when loading
+  the editor or when switching to the corresponding tab)
+* Implemented the ability to set the format for page numbering
+* Added support for the page color
+* Updated built-in paragraph styles
+* New items in the indents menu for opening the right panel and managing
+  paragraph indents, the ability to manage paragraph indents via the top toolbar
+* Color theme button is now on the Layout tab
+* Mail merge button is now on the Collaboration tab
+* Line spacing options updated
+* Improved work of the algorithm for displaying numbers and punctuation
+  in Arabic text for the Neutral and Weak classes
+* Improved fitting for paragraphs with main RTL direction
+
+#### Spreadsheet Editor
+
+* New languages added: ligature support
+* Selected cells are highlighted on their respective row/column numbers
+* New functions: `GETPIVOTDATA`, `IMPORTRANGE`
+* New function category: Custom based on `jsdoc`
+* Version history update: edited cells are highlighted
+* Users get custom protected range cells viewing rights
+* Implemented the ability to copy/move sheets between books in one browser
+* Changed the appearance of the sheet list in the embedded viewer in accordance
+  with the styles of the main spreadsheet editor
+
+#### Presentation Editor
+
+* New slide settings on the right panel: show background graphics, reset
+  background to the theme background, apply settings to all slides
+* Added Animation pane
+* Added a mode for editing master slides and templates
+
+#### Forms
+
+* Forms are now in `PDF` format instead of `DOCXF`
+* When adding a fixed form, now it is inserted without wrapping in front
+  of the text
+* The color of the Picture placeholder corresponds to the color of the role
+  for this form
+* The thickness of the frame for required fields is now 2px with any zoom
+* Added a button to switch to the editing mode (similar to the button
+  in the editor header) for forms opened in the View or Fill forms mode
+* The presence of this button depends on subscription of the integrator
+  to the `onRequestEditRights` event and the `permissions.edit` rights
+  (in case of a viewer)
+
+#### PDF Editor
+
+* Added buttons for switching Editing/Viewing (annotations) modes
+  to the toolbar and the editor header
+* Added tooltips for new or updated functionality (displayed when loading
+  the editor or when switching to the corresponding tab)
+* In the Edit mode, it's possible to add various objects (using the Home and
+  Insert tabs) and configure them using the right panel and context menu
+* Added the ability to add, delete or rotate pages using the context menu and
+  the toolbar
+* Added a mini toolbar for adding annotations when selecting text
+
+#### Security
+
+* Added the ability to connect to `MySQL` using `SSL`/`TLS`
+* Added the ability to generate `wopi.privateKey` when installing
+* Fixed the vulnerability in the `fs.folderPath` field which allows accessing
+  the file system
+* Fixed vulnerabilities in the `PtgName::assemble`, `PtgNameX::assemble`,
+  `PtgParen::assemble`, `PtgRef3d::assemble`, `PtgList::assemble` and
+  `PtgArea3d::assemble` methods which cause crash when converting `XLS` to `XLSX`
+* Fixed the vulnerability in the `CDataStream::ReadEmrTextBase` method which
+  causes crash when converting `ODP` to `PDF`
+* Fixed the vulnerability in the GlobalsSubstream::UpdateDefineNames method
+  which causes crash when converting `XLS` to `XLSX`
+* Fixed the vulnerability in the `WorkBookStream::UpdateXti` method which causes
+  crash when converting `XLS` to `XLSX`
+* Fixed Heap Buffer Overflow when converting `EPUB` to `PDF`
+* Fixed the vulnerability in the `CPPTUserInfo::LoadExternal` method which allows
+  writing a file to a folder with restricted access when converting `PPT` to `PPTX`
+* Fixed vulnerabilities which allow reading data from a third-party file when
+  converting `OOXML` to `ODF` and vice versa
+* Fixed Heap Buffer Overflow in the `CSvmFile::Read_META_BMP` method when
+  converting `ODP` to `PPTX`
+* Fixed the vulnerability in the `commandSetPassword` method which allows setting
+  a password for a document regardless of rights
+* Fixed the vulnerability in the /example/editor of the test example which
+  allows getting server configuration settings
+
+#### Back-end
+
+* New config parameter `services.CoAuthoring.server.editorStatStorage` for
+  changing data storage location for license and statistical data
+* New object `persistentStorage` to separate cache file storage, and forgotten
+  and error file storage
+
+#### WOPI
+
+* Files opened using `WOPI`: Save Copy as [added](https://learn.microsoft.com/en-us/microsoft-365/cloud-storage-partner-program/rest/files/putrelativefile#post-wopifilesfile_id)
+* When opening `PDFs` in form filling mode using `WOPI`, new discovery action
+  formsubmit is [active](https://learn.microsoft.com/en-us/microsoft-365/cloud-storage-partner-program/online/discovery#formsubmit)
+* [Added](https://api.onlyoffice.com/editors/wopi/hostpage) the
+  `docs_api_config` parameter of the editor opening form
+  via `WOPI` which passes a part of the config for opening the editor
+  to the `Docs API`
+* Added query param `WOPISrc` for sending requests to one server. Now,
+  the parameter sent by the integrator is used for `WOPI`; for `Docs API`, `document
+  key` is written in `WOPISrc`
+* 2 `WOPISrc` and `shardkey` names can be used as a sharding key
+
+#### Mobile
+
+* Improved mobile view for documents with tables and paragraphs with non-zero
+  left and/or right indents
+
+#### Customization
+
+* Added the `customization`->`features`->`roles` : `true`/`false` (`true` by default)
+  parameter to the editor config for role configuration functionality for `PDF Forms`
+* In the `customization` section of the editor config, added the new parameter:
+  close with keys `visible`: `true`/`false` (whether to show the button or not)
+  and `text`: 'Close file' (the tooltip text for a button in the editor header
+  or the menu item text in mobile editors and the File menu of web editors)
+* The `customization.goback.requestClose parameter` is no longer supported
+* Value for `customization`->`hideRightMenu` is `true` by default
+* Added the parameter which hides the logo in Mobile and Embed:
+  `customization`->`logo`->`visible`: `true`/`false` (`true` by default),
+  whether to show the logo or not
+* Implemented customization of the logo in the header
+  (the `customization`->`logo`->`image`/`imageDark` parameter)
+* Added a parameter to hide the button for switching editing modes
+  in the header: `customization`->`layout`->`header`->`editMode`: `true`/`false`
+  (`true` by default)
+
+#### Plugins
+
+* Plugins can make changes to the interface
+* Added a plugin method for the document editor to search for and highlight
+  the next/previous occurrence of a given text
+  `api.prototype.SearchNext = function(oProperties, isForward)`
+* In the information for the context menu in plugins, added flags indicating
+  that we are editing the header/footer, as well as added flags indicating that
+  the menu is called above the header/footer area (if we are not currently
+  editing it)
+
+#### Package
+
+* `NSSW` is replaced with `WinSW` for Windows installation; download and install
+  necessary prerequisites
+
+## 8.0.1
+
+### Fixes
+
+#### Document Editor
+
+* Fix crash when clicking comment inside a math equation ([DocumentServer#2556](https://github.com/ONLYOFFICE/DocumentServer/issues/2556))
+* Fix crash when using the Insert caption feature with the Include chapter
+  number option
+* Fix crash when inserting a copied image using `Ctrl`
+* Fix a problem with rendering collaboration highlight
+* Fix an issue with highlighting searching results in some `DOCX` files
+* Fix display of highlighting a comment added to RTL text
+* Fix text label for Table of Contents in the RTL UI
+* Fix an issue with shaping text with different direction (RTL and LTR)
+* Improve the calculation of the cursor position in case when it is between
+  text with different directions (RTL and LTR)
+* Fix an issue with correction of a text selection when passing through
+  a complex field
+* Fix an issue with calculating the current cursor position while selecting
+  elements in table
+* Fix selection for the hidden part of complex fields
+* Fix an issue with selection draw and cursor positioning in complex fields
+* Fix position of diacritics when typing in Arabic
+* Hide non-printing characters in header/footer label
+* Decrease the height of the header/footer label
+
+#### Spreadsheet Editor
+
+* Fix stopping work of the editor when exporting some `XLSX` files to
+  `PNG`/`JPEG`
+* Fix display of the `DBNum1` number format when opening some `XLSX` files
+* Fix appearing artifacts when inserting an image via Drag-n-Drop and moving it
+* Fix saving the current sheet only when exporting a work book to `PNG`/`JPEG`
+* Fix display of the #REF! error when adding the `VLOOKUP` formula with
+  an argument which is a reference to another file
+
+#### Presentation Editor
+
+* Fix stopping work of the editor when opening some `PPTX` files
+  ([DocumentServer#2591](https://github.com/ONLYOFFICE/DocumentServer/issues/2591))
+
+#### Forms
+
+* Fix crash when expanding the Date field in the forms edited in third-party
+  editors
+* Fix closing a drop-down list in some `PDF` forms with the Turn on screen
+  reader support option enabled
+* Change the default date-time format for a DatePicker form
+
+#### PDF Editor
+
+* Fix crash when opening some `DjVU` files
+* Fix annotations offset when exporting to `PDF`
+* Fix the color of the worksheet borders with the Light interface theme
+
+#### Security
+
+* Fixed the vulnerability in 'PIVOTVIEW::loadContent' method when converting
+  `XLS` to `XLSX`
+* Fixed the vulnerability in 'GlobalsSubstream::UpdateXti()' method when
+  converting `XLS` to `XLSX`
+* Fixed the vulnerability in 'ChartSheetSubstream::recalc' method when
+  converting `XLS` to `XLSX`
+* Fixed the vulnerability which leads to buffer overflow when converting
+  `ODP` to `PPTX`
+* Fixed the vulnerability which allows adding a third party file to a document
+  while converting `HTML` to `DOCX`
+* Fixed the ability to execute the PowerShell commands when converting
+  `DOC` to `PDF`
+
+#### Convert
+
+* Fixed files corruption after converting some `ODT` files to `DOCX`
+* Fixed adding the excess 'Default Extension="docxf" parameter when converting
+  `DOCXF` to `DOCX`
+* Fixed display of a date as a number when opening some `XLS` files
+* Fixed losing contents of the cell with an added comment after exporting to `ODS`
+* Fixed files corruption after converting some `DOC` files to `DOCX`
+* Fixed document appearance in another editors after export some `DOCX` files
+* Fixed data loss when converting some `DOC` to `DOCX` ([DocumentServer#2588](https://github.com/ONLYOFFICE/DocumentServer/issues/2588))
+* Fixed stopping work of some `XLS` to `CSV` conversion
+* Fixed files corruption after converting some `ODS` files to `XLSX`
+* Fixed data loss on opening some `TXT` files
+* Fixed files corruption after converting some `XLSB` files to `XLSX`
+
+#### Mobile
+
+* Fix stopping work of the editor if "document"."info" is missing in
+  the initialization config
+* Fix appearing the keyboard when opening a document in the Reader Mode
+* Fix an issue with selection bounds in the Reader mode
+* Fix text scale in charts for Reader mode
+* Improve the table view in Reader mode
+* Improve the view of table and paragraph in Reader mode
+* Fix display of the toolbar when scrolling a document in the Reader mode
+* Fix the search results position in the RTL UI
+* Fix work of handwriting input in the form fields
+* Fix work of `OFORM` to `PDF` conversion
+
+## 8.0.0
+
+### New features
+
+#### All Editors
+
+* Move adding a comment to the entire document from the bottom of the comments
+  panel to the settings button
+* Add a button for adding a comment to text to the header of the comments panel
+  similar to the button in the toolbar
+* Add the interface translation into Serbian (sr-Latn-RS, Serbian (Latin,
+  Serbia and Montenegro)) and Arabic (ar-SA, Arabic - Saudi Arabia)
+* Add Indonesian language id-id (Indonesian (Indonesia)),
+  en-id (English (Indonesia)) to the regional settings
+* All buttons that do not fit in height should be placed into More button:
+  category buttons, as well as plugins that were opened in the left panel
+* Add the setting to enable support for Screen readers
+* Add RTL support (beta) to the editors UI
+
+#### Document Editor
+
+* Add partially support for bidirectional text
+
+#### Spreadsheet Editor
+
+* Add the new Goal Seek functionality
+* Add the new Series tool for creating number sequences
+* Implement a wizard for inserting charts: display a list of recommended charts
+  and previews for all types of charts based on the selected data
+* Expand cell filling settings
+* Add the Expand/Collapse menu item to the toolbar and the context menu
+  of Pivot tables
+* Add the ability to center a sheet horizontally and vertically when printing
+* Add the ability to get a link to the selected range in the viewing mode
+
+#### Presentation Editor
+
+* Add the ability to set the final color for animation effects that change
+  color
+* Make animation effect icons inactive if the effect cannot be applied
+  to an object
+* Add partially support for bidirectional text
+
+#### Forms
+
+* Switching from the `OFORM` to `PDF` format containing forms in accordance
+  with the OOXML format
+* Dialog for converting old `OFORM` files to `PDF`
+* For the radio button field, add the setting for the name of the selected
+  element (Radio button choice)
+* Add a chain of tips when working with `DOCXF` files
+
+#### Security
+
+* Fix vulnerability which allows adding a third-party audio file to a document
+  when converting `PPT` to `PPTX`
+* Fix vulnerability which leads to buffer overflow when converting `ODP`
+  to `PDF`
+* Fix vulnerability which leads to buffer overflow when converting `PPT`
+  to `PPTX`
+* Fix vulnerability which allows performing manipulations on the client
+  machine when converting `HTML` to `DOCX`
+* Fix XSS in the Shape name field when applying an Animation
+* Fix XSS in the Math Autocorrect field when saving the field value
+* Fix XSS in the Spreadsheet Editor cell when opening the Number format list
+* Fix XSS in the Sheet name value when applying Search
+* Fix  XSS in the Custom Number Format when opening a list
+* Fix XSS in the Dropdown List field when opening it
+
+#### Back-end
+
+* Add the `formsdataurl` parameter to the Callback handler (to replace
+  `formdata`), which contains a link to the `json` file with data from filled
+  forms when sending with the `Submit` button
+* Add support for Oracle and MS Sql Server databases. For connecting, the `oracle`
+  and `mssql` database type is used
+
+  Advanced connection [settings](https://node-oracledb.readthedocs.io/en/latest/user_guide/connection_handling.html#connection-strings)
+  for oracle - `oracleExtraOptions`
+
+  Advanced connection [settings](https://github.com/tediousjs/node-mssql#tedious)
+  for mssql - `msSqlExtraOptions`
+* Add the JSON  `watermark` parameter to conversionapi for inserting
+  a watermark when rendering to `PDF` and images
+
+#### WOPI
+
+* Add the `query param` `WOPISrc` to requests from browser to server to send
+  requests to a single server. For `WOPI`, the parameter sent by an integrator
+  is used, for Docs API,  the `document key` is specified in `WOPISrc`
+
+#### Mobile
+
+* Add the ability to switch to the system theme
+* Change the interface for working with forms
+* Add formula search and list of recently used formulas in the mobile
+  Spreadsheet Editor
+* Add the ability to add a custom cell format in the mobile Spreadsheet Editor
+* Add switching to the reading or editing mode when opening the mobile Document
+  Editor based on the `mobileForceView` parameter in the configuration file
+* Add the ability to set the document language in the mobile Document Editor
+
+#### Customization
+
+* Add the ability to set an avatar for the current user using the editor
+  config: `config.editorConfig.user.image` (this image will not be visible
+  for other users)
+
+#### API
+
+* Add the following methods: `GetFreezePanesType`, `SetFreezePanesType`, and
+  the `FreezePanes` property
+* Add the `GetFreezePanes` method and the `FreezePanes` property to `ApiWorksheet`
+* Add the `ApiFreezePanes` class with the following methods: `FreezeAt`,
+  `FreezeColumns`, `FreezeRows`, `GetLocation`, `Unfreeze`
+* Add the following methods for obtaining and filling out form data
+  to the Builder of the Document Editor:
+  `ApiDocument.prototype.GetFormsData = function()`,
+  `ApiDocument.prototype.SetFormsData = function(arrData)`
+* Add the `ApiDocument.prototype.AddDrawingToPage =
+  function(oDrawing, nPage, x, y)` method for adding any `ApiDrawing`
+  to a given page
+* Add the ability to set avatars for users using the `onRequestUsers`
+  integrator event with the `data.c="info”` parameter and the `setUsers` method
+
+#### Plugins
+
+* Add the ability to launch several visual plugins simultaneously (a separate
+  button should be added to the left panel for each plugin)
+* Move background plugins to the Background Plugins button menu
+
 ## 7.5.1
 
 ### Fixes
